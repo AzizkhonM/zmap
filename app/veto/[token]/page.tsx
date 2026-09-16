@@ -216,7 +216,7 @@ export default function VetoRoomPage({
             ZMap
           </p>
           <h1 className="mt-3 text-3xl font-bold">Room unavailable</h1>
-          <p className="mt-2 text-sm text-zinc-500">{error}</p>
+          <p className="mt-2 text-sm text-zinc-400">{error}</p>
         </div>
       </main>
     );
@@ -272,7 +272,7 @@ export default function VetoRoomPage({
               ZMap
             </div>
 
-            <div className="mt-2 flex items-center gap-3 text-sm text-zinc-500">
+            <div className="mt-2 flex items-center gap-3 text-sm text-zinc-400">
               <span>{room.format}</span>
               <span className="h-1 w-1 rounded-full bg-zinc-700" />
               <span>{roleName}</span>

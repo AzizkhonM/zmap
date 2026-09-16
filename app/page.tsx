@@ -179,7 +179,7 @@ export default function HomePage() {
             ZMap
           </div>
 
-          <div className="text-sm text-zinc-500">CS2 Map Veto</div>
+          <div className="text-sm text-zinc-400">CS2 Map Veto</div>
         </header>
 
         {/* Hero */}
@@ -234,7 +234,7 @@ export default function HomePage() {
               Match format
             </h2>
 
-            <p className="mt-1 text-sm text-zinc-500">
+            <p className="mt-1 text-sm text-zinc-400">
               Choose the series format.
             </p>
           </div>
@@ -267,7 +267,7 @@ export default function HomePage() {
               </span>
             </div>
 
-            <p className="mt-1 text-sm text-zinc-500">
+            <p className="mt-1 text-sm text-zinc-400">
               Select the maps available for this veto.
             </p>
 
@@ -283,7 +283,7 @@ export default function HomePage() {
                 className={`rounded-lg border px-3 py-2 text-xs font-semibold transition ${
                   mapPoolMode === "ACTIVE"
                     ? "border-orange-500 bg-orange-500/10 text-orange-500"
-                    : "border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300"
+                    : "border-zinc-800 text-zinc-400 hover:border-zinc-700 hover:text-zinc-300"
                 }`}
               >
                 Current Active Pool
@@ -295,7 +295,7 @@ export default function HomePage() {
                 className={`rounded-lg border px-3 py-2 text-xs font-semibold transition ${
                   mapPoolMode === "CUSTOM"
                     ? "border-orange-500 bg-orange-500/10 text-orange-500"
-                    : "border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300"
+                    : "border-zinc-800 text-zinc-400 hover:border-zinc-700 hover:text-zinc-300"
                 }`}
               >
                 Custom Map Pool
@@ -353,7 +353,7 @@ export default function HomePage() {
 
         {/* Continue */}
         <section className="mt-auto flex flex-col gap-4 border-t border-zinc-900 pt-6 sm:flex-row sm:items-center sm:justify-between">
-          <div className="text-sm text-zinc-500">
+          <div className="text-sm text-zinc-400">
             {format} · {selectedMaps.length} maps
           </div>
 
@@ -380,7 +380,7 @@ export default function HomePage() {
               <div>
                 <h2 className="text-lg font-bold text-white">Room created</h2>
 
-                <p className="mt-1 text-sm text-zinc-500">
+                <p className="mt-1 text-sm text-zinc-400">
                   Share these links with the teams.
                 </p>
               </div>
