@@ -1,0 +1,46 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum VetoFormat {
+  BO1
+  BO3
+  BO5
+}
+
+enum RoomStatus {
+  ACTIVE
+  COMPLETED
+  EXPIRED
+}
+
+model VetoRoom {
+  id     String     @id @default(cuid())
+  format VetoFormat
+  status RoomStatus @default(ACTIVE)
+
+  team1Name String
+  team2Name String
+
+  mapPool   Json
+  vetoState Json?
+
+  team1Token     String @unique
+  team2Token     String @unique
+  spectatorToken String @unique
+
+  team1SessionId String?
+  team2SessionId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  expiresAt DateTime
+
+  @@index([status])
+  @@index([expiresAt])
+}
