@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ArrowRight, Check, ChevronDown, Copy } from "lucide-react";
+import Image from "next/image";
 
 type MapDefinition = {
   id: string;
@@ -14,43 +15,43 @@ const maps: MapDefinition[] = [
   {
     id: "ancient",
     name: "Ancient",
-    image: "/maps/ancient.png",
+    image: "/maps/ancient.webp",
     active: true,
   },
   {
     id: "anubis",
     name: "Anubis",
-    image: "/maps/anubis.png",
+    image: "/maps/anubis.webp",
     active: true,
   },
   {
     id: "cache",
     name: "Cache",
-    image: "/maps/cache.png",
+    image: "/maps/cache.webp",
     active: true,
   },
   {
     id: "dust2",
     name: "Dust II",
-    image: "/maps/dustii.png",
+    image: "/maps/dust2.webp",
     active: true,
   },
   {
     id: "inferno",
     name: "Inferno",
-    image: "/maps/inferno.png",
+    image: "/maps/inferno.webp",
     active: true,
   },
   {
     id: "mirage",
     name: "Mirage",
-    image: "/maps/mirage.png",
+    image: "/maps/mirage.webp",
     active: true,
   },
   {
     id: "nuke",
     name: "Nuke",
-    image: "/maps/nuke.png",
+    image: "/maps/nuke.webp",
     active: true,
   },
 
@@ -58,31 +59,31 @@ const maps: MapDefinition[] = [
   {
     id: "overpass",
     name: "Overpass",
-    image: "/maps/overpass.png",
+    image: "/maps/overpass.webp",
     active: false,
   },
   {
     id: "vertigo",
     name: "Vertigo",
-    image: "/maps/vertigo.png",
+    image: "/maps/vertigo.webp",
     active: false,
   },
   {
     id: "train",
     name: "Train",
-    image: "/maps/train.png",
+    image: "/maps/train.webp",
     active: false,
   },
   {
     id: "office",
     name: "Office",
-    image: "/maps/office.png",
+    image: "/maps/office.webp",
     active: false,
   },
   {
     id: "italy",
     name: "Italy",
-    image: "/maps/italy.png",
+    image: "/maps/italy.webp",
     active: false,
   },
 ];
@@ -174,12 +175,8 @@ export default function HomePage() {
       <div className="mx-auto flex min-h-screen w-full max-w-6xl flex-col px-6 py-10 lg:px-8">
         {/* Header */}
         <header className="mb-16 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-orange-500 font-black text-black">
-              Z
-            </div>
-
-            <span className="text-lg font-bold tracking-tight">ZMap</span>
+          <div className="text-2xl font-semibold tracking-[-0.03em] text-white">
+            ZMap
           </div>
 
           <div className="text-sm text-zinc-500">CS2 Map Veto</div>
@@ -261,16 +258,20 @@ export default function HomePage() {
 
         {/* Map Pool */}
         <section className="mb-12">
-          <div className="mb-5 flex items-end justify-between">
-            <div>
+          <div className="mb-5">
+            <div className="flex items-center justify-between">
               <h2 className="text-sm font-semibold text-zinc-200">Map pool</h2>
+
+              <span className="text-xs text-zinc-600">
+                {selectedMaps.length} selected
+              </span>
             </div>
 
             <p className="mt-1 text-sm text-zinc-500">
               Select the maps available for this veto.
             </p>
 
-            <div className="mt-5 flex gap-2">
+            <div className="mt-4 flex flex-wrap gap-2">
               <button
                 type="button"
                 onClick={() => {
@@ -300,10 +301,6 @@ export default function HomePage() {
                 Custom Map Pool
               </button>
             </div>
-
-            <span className="text-xs text-zinc-600">
-              {selectedMaps.length} selected
-            </span>
           </div>
 
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
@@ -329,10 +326,12 @@ export default function HomePage() {
                       : "disabled:cursor-not-allowed"
                   }`}
                 >
-                  <img
+                  <Image
                     src={map.image}
                     alt={map.name}
-                    className="absolute inset-0 h-full w-full object-cover transition duration-300 group-hover:scale-105"
+                    fill
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                    className="object-cover transition duration-300 group-hover:scale-105"
                   />
 
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/10" />

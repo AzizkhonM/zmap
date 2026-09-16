@@ -268,7 +268,7 @@ export default function VetoRoomPage({
         {/* Header */}
         <header className="flex items-center justify-between border-b border-zinc-900 pb-6">
           <div>
-            <div className="text-xs font-bold uppercase tracking-[0.25em] text-orange-500">
+            <div className="text-xl font-semibold tracking-[-0.03em] text-white">
               ZMap
             </div>
 
@@ -389,9 +389,26 @@ export default function VetoRoomPage({
 
         {/* Map grid */}
         <section>
-          <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-            {room.mapPool.map((map) => {
+          <div className="mb-4 flex items-end justify-between">
+            <div>
+              <h2 className="text-sm font-semibold uppercase tracking-[0.16em] text-zinc-300">
+                Map Pool
+              </h2>
+
+              <p className="mt-1 text-xs text-zinc-600">
+                Select a map to continue the veto.
+              </p>
+            </div>
+
+            <div className="font-mono text-[10px] uppercase tracking-widest text-zinc-600">
+              {room.mapPool.length.toString().padStart(2, "0")} Maps
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
+            {room.mapPool.map((map, index) => {
               const used = usedMaps.has(map);
+
               const disabled =
                 used ||
                 state.completed ||
@@ -402,43 +419,130 @@ export default function VetoRoomPage({
 
               const mapAction = state.actions.find((item) => item.map === map);
 
+              const actionTeam = mapAction?.team
+                ? mapAction.team === "TEAM_1"
+                  ? room.team1Name
+                  : room.team2Name
+                : null;
+
               return (
                 <button
                   key={map}
+                  type="button"
                   disabled={disabled}
                   onClick={() => handleAction(map)}
                   className={[
-                    "group relative aspect-[16/9] overflow-hidden rounded-xl border text-left transition",
+                    "group relative aspect-[16/10] overflow-hidden",
+                    "border bg-zinc-950 text-left",
+                    "transition-all duration-200",
+                    "focus:outline-none focus-visible:ring-1 focus-visible:ring-orange-500",
                     used
-                      ? "cursor-default border-zinc-900 bg-zinc-950 opacity-40"
+                      ? "cursor-default border-zinc-900"
                       : disabled
-                      ? "cursor-not-allowed border-zinc-900 bg-zinc-950"
-                      : "border-zinc-800 bg-zinc-950 hover:-translate-y-0.5 hover:border-orange-500 hover:bg-zinc-900",
+                      ? "cursor-not-allowed border-zinc-900 opacity-55"
+                      : [
+                          "cursor-pointer border-zinc-800",
+                          "hover:-translate-y-0.5",
+                          "hover:border-orange-500/70",
+                          "hover:shadow-[0_8px_30px_rgba(249,115,22,0.08)]",
+                        ].join(" "),
                   ].join(" ")}
                 >
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
+                  {/* Map image */}
+                  <img
+                    src={`/maps/${map.toLowerCase().replace(/\s+/g, "")}.webp`}
+                    alt={map}
+                    className={[
+                      "absolute inset-0 h-full w-full object-cover",
+                      "transition-transform duration-500",
+                      used
+                        ? "scale-100 grayscale"
+                        : disabled
+                        ? "scale-100"
+                        : "group-hover:scale-105",
+                    ].join(" ")}
+                  />
 
-                  <div className="absolute inset-x-0 bottom-0 p-4">
-                    <div className="text-base font-bold">{map}</div>
+                  {/* Dark overlay */}
+                  <div
+                    className={[
+                      "absolute inset-0 transition-opacity duration-200",
+                      used
+                        ? "bg-black/75"
+                        : "bg-gradient-to-t from-black via-black/25 to-black/5",
+                    ].join(" ")}
+                  />
 
-                    {mapAction && (
-                      <div className="mt-1 text-[10px] font-bold uppercase tracking-widest text-orange-500">
-                        {mapAction.action}
-                        {mapAction.team
-                          ? ` · ${
-                              mapAction.team === "TEAM_1"
-                                ? room.team1Name
-                                : room.team2Name
-                            }`
-                          : ""}
-                      </div>
+                  {/* Orange hover tint */}
+                  {!used && !disabled && (
+                    <div className="absolute inset-0 bg-orange-500/0 transition-colors duration-200 group-hover:bg-orange-500/[0.04]" />
+                  )}
+
+                  {/* Top meta */}
+                  <div className="absolute inset-x-0 top-0 flex items-start justify-between p-3">
+                    <span className="font-mono text-[10px] font-medium tracking-widest text-white/40">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+
+                    {!used && !disabled && (
+                      <span className="translate-y-1 rounded-sm border border-white/10 bg-black/30 px-1.5 py-1 font-mono text-[9px] uppercase tracking-widest text-white/50 opacity-0 backdrop-blur-sm transition-all duration-200 group-hover:translate-y-0 group-hover:opacity-100">
+                        Select
+                      </span>
                     )}
                   </div>
 
-                  {used && (
-                    <div className="absolute right-3 top-3 rounded-md bg-black/70 px-2 py-1 text-[10px] font-bold uppercase tracking-widest text-zinc-500">
-                      Used
+                  {/* Bottom content */}
+                  <div className="absolute inset-x-0 bottom-0 p-3">
+                    <div className="flex items-end justify-between gap-2">
+                      <div className="min-w-0">
+                        <div className="truncate text-lg font-bold uppercase tracking-tight text-white">
+                          {map}
+                        </div>
+
+                        {mapAction && (
+                          <div className="mt-1 flex items-center gap-1.5 font-mono text-[9px] font-bold uppercase tracking-widest text-orange-500">
+                            <span>{mapAction.action}</span>
+
+                            {actionTeam && (
+                              <>
+                                <span className="text-zinc-600">/</span>
+                                <span className="truncate text-zinc-400">
+                                  {actionTeam}
+                                </span>
+                              </>
+                            )}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Action indicator */}
+                      {!used && !disabled && (
+                        <div className="flex h-7 w-7 shrink-0 items-center justify-center border border-white/10 bg-black/30 text-white/50 backdrop-blur-sm transition-all duration-200 group-hover:border-orange-500/50 group-hover:bg-orange-500 group-hover:text-black">
+                          <span className="text-sm leading-none">↗</span>
+                        </div>
+                      )}
                     </div>
+                  </div>
+
+                  {/* Used state */}
+                  {used && (
+                    <>
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="flex flex-col items-center">
+                          <div className="mb-2 h-px w-8 bg-zinc-700" />
+
+                          <span className="font-mono text-[9px] font-bold uppercase tracking-[0.25em] text-zinc-500">
+                            Used
+                          </span>
+
+                          <div className="mt-2 h-px w-8 bg-zinc-700" />
+                        </div>
+                      </div>
+
+                      <div className="absolute right-3 top-3 font-mono text-[9px] font-bold uppercase tracking-widest text-zinc-600">
+                        ×
+                      </div>
+                    </>
                   )}
                 </button>
               );
